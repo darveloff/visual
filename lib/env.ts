@@ -7,7 +7,7 @@ let cachedEnv: EnvConfig | null = null;
 
 export function getEnv(): EnvConfig {
   // #region agent log
-  fetch("http://127.0.0.1:7409/ingest/c52de449-0a85-4260-8a9f-34e8cd43f571", {
+  fetch("http://127.0.0.1:7866/ingest/a5a749f6-8947-4696-bc19-494f4d317254", {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "5200d9" },
     body: JSON.stringify({
@@ -35,7 +35,7 @@ export function getEnv(): EnvConfig {
 
   if (!supabaseUrl) {
     // #region agent log
-    fetch("http://127.0.0.1:7409/ingest/c52de449-0a85-4260-8a9f-34e8cd43f571", {
+    fetch("http://127.0.0.1:7866/ingest/a5a749f6-8947-4696-bc19-494f4d317254", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "5200d9" },
       body: JSON.stringify({
@@ -57,7 +57,7 @@ export function getEnv(): EnvConfig {
 
   if (!supabaseAnonKey) {
     // #region agent log
-    fetch("http://127.0.0.1:7409/ingest/c52de449-0a85-4260-8a9f-34e8cd43f571", {
+    fetch("http://127.0.0.1:7866/ingest/a5a749f6-8947-4696-bc19-494f4d317254", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "5200d9" },
       body: JSON.stringify({
@@ -78,7 +78,7 @@ export function getEnv(): EnvConfig {
   }
 
   // #region agent log
-  fetch("http://127.0.0.1:7409/ingest/c52de449-0a85-4260-8a9f-34e8cd43f571", {
+  fetch("http://127.0.0.1:7866/ingest/a5a749f6-8947-4696-bc19-494f4d317254", {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "5200d9" },
     body: JSON.stringify({
