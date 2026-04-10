@@ -14,6 +14,10 @@ type GenerationResult = {
   normalizedTitle: string;
   sections: Array<{ id: string; type: string; title: string; body: string }>;
   tokens: Record<string, unknown>;
+  generatedCode: {
+    files: Array<{ path: string; content: string }>;
+    combinedTsx: string;
+  };
   warnings: string[];
 };
 
@@ -67,6 +71,17 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  function downloadGeneratedCode() {
+    if (!result?.generatedCode?.combinedTsx) return;
+    const blob = new Blob([result.generatedCode.combinedTsx], { type: "text/plain;charset=utf-8" });
+    const objectUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = "generated-sections.tsx";
+    link.click();
+    URL.revokeObjectURL(objectUrl);
   }
 
   return (
@@ -176,6 +191,18 @@ export default function Home() {
             ) : (
               <div className="mt-4 space-y-4">
                 <p className="text-zinc-300">{result.normalizedTitle}</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-md border border-white/15 px-3 py-1 font-mono text-xs text-zinc-300">
+                    {result.generatedCode?.files?.length ?? 0} files generated
+                  </span>
+                  <button
+                    type="button"
+                    onClick={downloadGeneratedCode}
+                    className="rounded-md border border-white/20 px-3 py-1 text-xs text-zinc-100 transition hover:bg-white/10"
+                  >
+                    Download TSX
+                  </button>
+                </div>
                 {result.sections.map((section) => (
                   <div key={section.id} className="rounded-md border border-white/12 bg-black/30 p-4">
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300/90">
@@ -185,6 +212,11 @@ export default function Home() {
                     <p className="mt-2 text-sm text-zinc-300">{section.body}</p>
                   </div>
                 ))}
+                {result.generatedCode?.combinedTsx ? (
+                  <pre className="max-h-80 overflow-auto rounded-md border border-white/12 bg-black/40 p-4 text-xs text-zinc-300">
+                    <code>{result.generatedCode.combinedTsx}</code>
+                  </pre>
+                ) : null}
               </div>
             )}
           </article>

@@ -1,4 +1,5 @@
 import { fetchDesignContext } from "@/lib/figma/fetchDesignContext";
+import { generateReactCodeBundle } from "@/lib/generator/reactCodeGenerator";
 import { normalizeTree } from "@/lib/figma/normalizeTree";
 import { parseFigmaUrl } from "@/lib/figma/parseUrl";
 import { generateSections } from "@/lib/generator/sectionGenerator";
@@ -13,6 +14,7 @@ export type GenerationResult = {
   normalizedTitle: string;
   sections: ReturnType<typeof generateSections>;
   tokens: ReturnType<typeof mapTokens>;
+  generatedCode: ReturnType<typeof generateReactCodeBundle>;
   warnings: string[];
 };
 
@@ -25,6 +27,7 @@ export async function generateFromFigma(input: { url: string; nodeId?: string })
   const normalized = normalizeTree(context);
   const sections = generateSections(normalized);
   const tokens = mapTokens();
+  const generatedCode = generateReactCodeBundle(sections, tokens);
 
   const result: GenerationResult = {
     input: {
@@ -35,6 +38,7 @@ export async function generateFromFigma(input: { url: string; nodeId?: string })
     normalizedTitle: normalized.title,
     sections,
     tokens,
+    generatedCode,
     warnings: [
       "Design-context fetch currently uses deterministic mock data. Swap fetchDesignContext with MCP-backed fetch when server-side adapter is added.",
     ],
